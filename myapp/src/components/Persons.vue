@@ -1,7 +1,9 @@
 <template>
   <v-container fluid class="list-persons">
-    <!-- <v-row class="mt-4"> -->
+    <!-- if can not get list of users display the error -->
     <p v-if="status == 'error'">{{ error }}</p>
+
+    <!-- if we have the list of persons with success, map the list, each element in a component Person  -->
     <div v-else-if="status == 'ready'">
       <div v-for="person in persons" v-bind:key="person.id">
         <Person
@@ -11,11 +13,11 @@
         />
       </div>
     </div>
+
+    <!-- if we wait the list of persons load  -->
     <p v-else-if="status == 'load'">
-      Loading Persons ...
       <Loading />
     </p>
-    <!-- </v-row> -->
   </v-container>
 </template>
 
@@ -35,7 +37,7 @@ export default {
   data() {
     return {
       error: "",
-      edit: false,
+      edit: false, // to use in modal double functionnality add and edit person
     };
   },
 
@@ -46,6 +48,7 @@ export default {
   },
 
   methods: {
+    // add person method
     async deletePerson(personId) {
       try {
         confirm("Are you sure to delete Person ?") &&
@@ -55,6 +58,7 @@ export default {
         console.log(error);
       }
     },
+    // edit person method
     async editPerson(personId, newPerson) {
       try {
         await axios.put(`http://localhost:3000/persons/${personId}`, newPerson);

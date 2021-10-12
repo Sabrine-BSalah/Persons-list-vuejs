@@ -1,17 +1,17 @@
 <template>
   <v-card elevation="2" outlined class="person-card">
-    <h2>FirstName : {{ person.firstName }}</h2>
-    <h2>LastName :{{ person.lastName }}</h2>
-    <h2>Email : {{ person.email }}</h2>
+    <p><strong>FirstName : </strong> {{ person.firstName }}</p>
+    <p><strong>LastName : </strong>{{ person.lastName }}</p>
+    <p><strong>Email : </strong> {{ person.email }}</p>
+    <!-- delete button  -->
     <div class="delete-edit-btns">
-      <v-btn
-        x-large
-        color="success"
-        dark
+      <img
+        src="../assets/delete.png"
+        alt="delete person"
+        width="60px"
         @click="() => deletePerson(person.id)"
-      >
-        Delete
-      </v-btn>
+      />
+      <!-- add button with modal imported as EditPerson name  -->
       <EditPerson edit="true" :editPerson="editPerson" :person="person" />
     </div>
   </v-card>
@@ -26,9 +26,8 @@ export default {
   components: {
     EditPerson,
   },
-  props: ["person", "deletePerson", "editPerson"],
 
-  methods: {},
+  props: ["person", "deletePerson", "editPerson"],
 };
 </script>
 
@@ -37,8 +36,15 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
+  width: 550px;
   padding: 20px;
   margin: 20px;
+  background-color: #fafbfc !important;
+  color: rgb(105, 105, 105) !important;
+}
+.delete-edit-btns img {
+  width: 60px;
+  cursor: pointer;
+  margin: 0 20px;
 }
 </style>

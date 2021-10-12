@@ -1,9 +1,5 @@
 <template>
   <v-app>
-    <!-- <v-app-bar app color="primary" dark> -->
-    <!-- <Header /> -->
-    <!-- </v-app-bar> -->
-
     <v-main class="main-app">
       <div>
         <SearchPerson
@@ -28,33 +24,28 @@
         :inputSearchEmail="inputSearchEmail"
       />
     </v-main>
-    <!-- <v-footer><Footer /> </v-footer> -->
   </v-app>
 </template>
 
 <script>
 import axios from "axios";
-// import Header from "./components/Header.vue";
 import SearchPerson from "./components/SearchPerson.vue";
 import AddPerson from "./components/AddEditPerson.vue";
 import Persons from "./components/Persons.vue";
-// import Footer from "./components/Footer.vue";
 
 export default {
   name: "App",
 
   components: {
-    // Header,
     SearchPerson,
     Persons,
     AddPerson,
-    // Footer,
   },
 
   data() {
     return {
       persons: [],
-      status: "load",
+      status: "load", // load when waiting the list of persons
       inputSearchFName: "",
       inputSearchLName: "",
       inputSearchEmail: "",
@@ -62,6 +53,7 @@ export default {
   },
 
   methods: {
+    // Fetch list of persons and change the value of "status" which control if success or fail
     async loadPersons() {
       try {
         const p = await axios.get("http://localhost:3000/persons");
@@ -72,6 +64,7 @@ export default {
         this.status = "error";
       }
     },
+    // Add request method and call of loadPersons() to fetch after add new person
     async addPerson(person) {
       try {
         await axios.post("http://localhost:3000/persons/", person);
@@ -80,6 +73,7 @@ export default {
         console.log(error);
       }
     },
+    // Filter list of persons with firstname && lastname && email
     filterByFirstName(inputSearchFName, inputSearchLName, inputSearchEmail) {
       return this.persons.filter(
         (person) =>
@@ -92,12 +86,15 @@ export default {
           person.email.toUpperCase().includes(inputSearchEmail.toUpperCase())
       );
     },
+    // handle firstname method
     handleFName(val) {
       this.inputSearchFName = val;
     },
+    // handle lastname method
     handleLName(val) {
       this.inputSearchLName = val;
     },
+    // handle email method
     handleEmail(val) {
       this.inputSearchEmail = val;
     },
@@ -107,12 +104,13 @@ export default {
 
 <style>
 .v-application {
-  background-image: url("./assets/back.jpg") !important;
+  background-image: url("./assets/back2.jpg") !important;
   height: 100% !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-size: contain !important;
   background-attachment: fixed !important;
+  text-align: center;
 }
 
 .delete-edit-btns {

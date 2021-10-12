@@ -1,10 +1,29 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600px">
+    <!-- depending on the value of boolean edit we display neither edit button or delete button  -->
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on" x-large>
-        {{ edit ? "Edit Person" : "Add Person" }}
+      <!-- if edit true display edit button -->
+      <v-img
+        v-if="edit"
+        src="../assets/edit.png"
+        v-bind="attrs"
+        v-on="on"
+        alt="edit"
+        width="60px"
+      />
+      <!-- else display add button -->
+      <v-btn
+        v-else
+        x-large
+        v-bind="attrs"
+        v-on="on"
+        center
+        class="grey lighten-4"
+      >
+        Add
       </v-btn>
     </template>
+    <!-- details of modal when opened conditional rendering  according to edit value-->
     <v-card>
       <v-card-title>
         <span class="text-h5">{{
@@ -58,9 +77,11 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
+        <!--  close button -->
         <v-btn color="blue darken-1" text @click="dialog = false">
           Close
         </v-btn>
+        <!--  add or edit button -->
         <v-btn color="blue darken-1" text @click="addOrEditPerson">
           {{ edit ? "Edit" : "Add" }}
         </v-btn>
@@ -75,6 +96,7 @@ import { required, maxLength, email } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
+  // Validations errors of inputs
   validations: {
     firstName: { required, maxLength: maxLength(15) },
     lastName: { required, maxLength: maxLength(15) },
@@ -99,6 +121,7 @@ export default {
   },
 
   computed: {
+    //  Handling errors firstname before add or edit
     handleErrorsFirstName() {
       const errors = [];
       if (!this.$v.firstName.$dirty) return errors;
@@ -107,6 +130,7 @@ export default {
       !this.$v.firstName.required && errors.push("FirstName is required !!");
       return errors;
     },
+    //  Handling errors lastname before add or edit
     handleErrorsLastName() {
       const errors = [];
       if (!this.$v.lastName.$dirty) return errors;
@@ -115,6 +139,7 @@ export default {
       !this.$v.lastName.required && errors.push("lastName is required !!");
       return errors;
     },
+    //  Handling errors email before add or edit
     handleErrorsEmail() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
@@ -125,16 +150,18 @@ export default {
   },
 
   methods: {
+    // close modal method
     closeModal() {
       this.dialog = false;
     },
-
+    // Initialize inputs to use after add new person
     cleanInputs() {
       this.firstName = "";
       this.lastName = "";
       this.email = "";
       this.$v.$reset();
     },
+    // Method with condition if edit true==> edit a person, else ==>add new person
     addOrEditPerson() {
       {
         if (this.firstName && this.lastName && this.email) {
