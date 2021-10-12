@@ -1,0 +1,28 @@
+{
+  "name": "jsonserver",
+  "version": "1.0.0",
+  "description": "json server for my contact list",
+  "main": "index.js",
+  "scripts": {
+    "json:server": "json-server --watch db.json",
+    "dev": "concurrently \"npm run json:server\" \"cd myapp && npm run serve\""
+  },
+  "keywords": [
+    "fake",
+    "server",
+    "fake",
+    "rest",
+    "api",
+    "api",
+    "json",
+    "json-server"
+  ],
+  "author": "sabrine ben salah",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.17.0"
+  },
+  "devDependencies": {
+    "concurrently": "^6.3.0"
+  }
+}
